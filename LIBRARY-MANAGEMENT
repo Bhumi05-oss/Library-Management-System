@@ -1,0 +1,142 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+using namespace std;
+
+class temp{
+string id,name,author,searchId;
+fstream file;
+public:
+
+void addBook() {
+    cout<<"Enter book id="<<endl;
+    getline(cin,id);
+
+    cout<<"Enter book name="<<endl;
+    getline(cin,name);
+
+    cout<<"Enter Author name=";
+    getline(cin,author);
+
+    file.open("bookData.txt",ios::out|ios::app);
+
+    if(!file.is_open()){
+        cout<<"error opening"<<endl;
+        return;
+    }
+
+file<<id<<"*"<<name<<"*"<<author<<endl;
+    file.close();
+    cout<<"book added successfully";
+}
+void showBook()
+{
+    file.open("bookData.txt",ios :: in);
+
+    if(!file.is_open()){
+        cout<<"no books fund";
+        return ;
+    }
+
+    string line;
+    cout<<"all books in library";
+    cout<<"--------------------------------------"<<endl;
+ cout<<"book ID\t\tBook Name\t\tAuthor\n";
+ cout<<"--------------------------------------"<<endl;
+
+ while(
+
+    getline(file,line)){
+        stringstream ss(line);
+        string id,name,author;
+
+    getline(ss,id,'*');
+    getline(ss,name,'*');
+    getline(ss,author,'*');
+
+    cout<<id<<" \t\t "<<name<<" \t\t "<<author<<endl;
+    }
+        file.close();
+    }
+void extractBook(){
+    string searchId;
+
+        bool found=false;
+        cout<<"enter book id=";
+        getline(cin,searchId);
+
+        file.open("bookData.txt",ios :: in);
+
+        if(!file.is_open()){
+            cout<<"file could not be opened";
+            return ;
+        }
+        string line;
+        while(
+        getline(file,line)){
+            stringstream ss(line);
+            string id,name,author;
+
+        getline(ss,id,'*');
+        getline(ss,name,'*');
+        getline(ss,author,'*');
+        
+            if(id==searchId){
+                cout<<"book found:"<<endl;
+                cout<<"id:"<<id<<endl;
+                cout<<"name:"<<name<<endl;
+                cout<<"author:"<<author<<endl;
+                found=true;
+                break;
+            }
+        }
+        file.close();
+
+        if(!found){
+            cout<<"book with id"<<searchId<<"not found";
+        }
+         };
+
+}obj;
+
+int main()
+{
+    temp obj;
+    char choice;
+    cout<<"1.Show All books"<<endl;
+    cout<<"2.Extract books"<<endl;
+    cout<<"3.Add books"<<endl;
+    cout<<"4.Exit"<<endl;
+
+    cout<<"Enter choice=";
+    cin>>choice;
+    cin.ignore();
+
+    switch(choice)
+    {
+        case '1':
+        obj.showBook();
+        break;
+
+        case '2':
+         obj.extractBook();
+         break;
+
+         case '3':
+         obj.addBook();
+         break;
+
+         case '4':
+         return 0;
+         break;
+
+        default :
+        cout<<"Invalid choice";
+    }
+    while(choice!='4');
+    return 0;
+}
+
+
+
